@@ -19,6 +19,7 @@ RUN bin/start && \
     bin/client -r 10 -d 5  "feature:install fcrepo-api-x-registry" && \
     bin/client -r 10 -d 5  "feature:install fcrepo-api-x-indexing" && \
     bin/client -r 10 -d 5  "feature:install fcrepo-indexing-triplestore" && \
+    bin/client -r 10 -d 5  "feature:install fcrepo-indexing-solr" && \
     bin/stop
 
 
