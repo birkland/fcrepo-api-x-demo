@@ -21,8 +21,8 @@ services:
       - "5006:5006"
 
   indexing:
-    image: fcrepoapix/apix-indexing:0.3.0-SNAPSHOT
-    build: indexing/0.3.0-SNAPSHOT
+    image: fcrepoapix/apix-indexing:0.3.0-SNAPSHOT-1
+    build: indexing/0.3.0-SNAPSHOT-1
     container_name: indexing
     env_file: .env
     ports:

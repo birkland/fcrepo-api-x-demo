@@ -5,6 +5,7 @@ LABEL description = "Provides a Karaf container configured with indexing feature
 
 # The version of API-X features being included in the image
 ENV APIX_VERSION=0.3.0-SNAPSHOT \
+    ACREPO_VERSION=1.1.0 \
     FUSEKI_HOST=fuseki \
     FCREPO_HOST=fcrepo \
     FCREPO_PORT=80 \
@@ -18,9 +19,10 @@ ENV APIX_VERSION=0.3.0-SNAPSHOT \
 #ADD maven/ /build/repository/
 RUN bin/start && \
     bin/client -r 10 -d 5  "feature:repo-add mvn:org.fcrepo.apix/fcrepo-api-x-karaf/${APIX_VERSION}/xml/features" && \
+    bin/client -r 10 -d 5  "feature:repo-add mvn:edu.amherst.acdc/acrepo-karaf/${ACREPO_VERSION}/xml/features" && \
     bin/client -r 10 -d 5  "feature:install fcrepo-api-x-registry" && \
     bin/client -r 10 -d 5  "feature:install fcrepo-api-x-indexing" && \
-    bin/client -r 10 -d 5  "feature:install fcrepo-indexing-triplestore" && \
+    bin/client -r 10 -d 5  "feature:install acrepo-connector-triplestore" && \
     bin/stop && \
     rm -rf instances/* && \
     rm -rf /build/repository/*
