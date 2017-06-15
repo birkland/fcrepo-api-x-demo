@@ -3,16 +3,16 @@ version: "2"
 services:
 
   fuseki:
-    image: fcrepoapix/apix-fuseki:2.4.1-1
-    build: fuseki/2.4.1-1
+    image: fcrepoapix/apix-fuseki:2.6.0
+    build: fuseki/2.6.0
     env_file: .env
     container_name: fuseki
     ports:
       - "${FUSEKI_PORT}:${FUSEKI_PORT}"
 
   fcrepo:
-    image: fcrepoapix/apix-fcrepo:4.7.1-1
-    build: fcrepo/4.7.1-1
+    image: fcrepoapix/apix-fcrepo:4.7.3
+    build: fcrepo/4.7.3
     container_name: fcrepo
     env_file: .env
     ports:
@@ -34,13 +34,14 @@ services:
       - apix:localhost
 
   acrepo:
-    image: fcrepoapix/apix-acrepo:1.0.99
+    image: fcrepoapix/apix-acrepo:1.1.0
+    build: extensions/acrepo/1.1.0
     container_name: acrepo
     env_file: .env
     ports:
       - "${ACREPO_FITS_PORT}:${ACREPO_FITS_PORT}"
       - "${ACREPO_IMAGE_PORT}:${ACREPO_IMAGE_PORT}"
-      - "${ACREPO_JSONLD_PORT}:${ACREPO_JSONLD_PORT}"
+      - "${ACREPO_ORE_PORT}:${ACREPO_ORE_PORT}"
       - "${ACREPO_PCDM_PORT}:${ACREPO_PCDM_PORT}"
       - "${ACREPO_SERIALIZE_XML_PORT}:${ACREPO_SERIALIZE_XML_PORT}"
       - "${ACREPO_TEMPLATE_PORT}:${ACREPO_TEMPLATE_PORT}"
@@ -50,7 +51,7 @@ services:
       - apix:localhost
 
   apix:
-    image: fcrepoapix/apix-core:0.3.0
+    image: fcrepoapix/apix-core:0.3.0-SNAPSHOT
     build: apix/0.3.0-SNAPSHOT
     container_name: apix
     env_file: .env
@@ -59,6 +60,18 @@ services:
       - "${APIX_LOADER_PORT}:${APIX_LOADER_PORT}"
     depends_on:
       - fcrepo
+
+  rdfvis:
+     image: fcrepoapix/apix-rdfvis:1.0.0
+     build: extensions/rdfvis/1.0.0
+     container_name: rdfvis
+     env_file: .env
+     ports:
+       - "${EXT_RDF_VIS_PORT}:${EXT_RDF_VIS_PORT}"
+     environment: 
+       - "PORT=${EXT_RDF_VIS_PORT}"
+     links:
+      - apix:localhost
 
   fits:
     image: fcrepoapix/apix-fits:1.0.3-1
